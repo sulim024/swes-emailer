@@ -13,6 +13,7 @@ As a side effect, `apply_filters` annotates each kept Job with
 from __future__ import annotations
 
 import re
+from datetime import date, timedelta
 from functools import lru_cache
 from typing import Iterable, Optional
 
@@ -176,6 +177,33 @@ def classify_category(
     return None
 
 
+def _parse_posted_date(value: Optional[str]) -> Optional[date]:
+    """Parse an ISO-like posted date from job metadata."""
+    if not value:
+        return None
+    text = str(value).strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text[:10])
+    except ValueError:
+        return None
+
+
+def is_recent_enough(job: Job, role_cfg: dict) -> bool:
+    """Return True when the posting is within the configured freshness window."""
+    max_age_days = role_cfg.get("max_posted_age_days")
+    if not max_age_days:
+        return True
+
+    posted_date = _parse_posted_date(job.posted_date)
+    if posted_date is None:
+        return True
+
+    cutoff = date.today() - timedelta(days=int(max_age_days))
+    return posted_date >= cutoff
+
+
 def is_us_location(job: Job, loc_cfg: dict) -> bool:
     """Return True if the job has an accepted US location."""
     if not loc_cfg.get("require_us", True):
@@ -251,7 +279,11 @@ def passes(job: Job, f: dict) -> bool:
 
     job.year = year
 
-    # 4. Category.
+    # 4. Freshness window.
+    if not is_recent_enough(job, role_cfg):
+        return False
+
+    # 5. Category.
     category = classify_category(
         title_lc,
         f.get("categories", {}),
@@ -262,7 +294,7 @@ def passes(job: Job, f: dict) -> bool:
 
     job.category = category or "other"
 
-    # 5. US location.
+    # 6. US location.
     if not is_us_location(job, loc_cfg):
         return False
 

@@ -1,5 +1,7 @@
 """Filter behaviour against the real config/filters.yaml."""
 
+from datetime import date, timedelta
+
 from src import config
 from src.filters import passes
 from src.models import Job
@@ -94,3 +96,21 @@ def test_pure_swe_intern_rejected():
 def test_remote_kept_2():
     j = _job("RF Engineer Intern", ["Remote"])
     assert passes(j, F)
+
+
+def test_old_posting_rejected_when_freshness_limit_set():
+    cfg = dict(F)
+    cfg["role"] = dict(F["role"])
+    cfg["role"]["max_posted_age_days"] = 7
+    old_date = (date.today() - timedelta(days=8)).isoformat()
+    j = _job("Hardware Engineer Intern", ["New York, NY"], posted_date=old_date)
+    assert not passes(j, cfg)
+
+
+def test_recent_posting_kept_when_freshness_limit_set():
+    cfg = dict(F)
+    cfg["role"] = dict(F["role"])
+    cfg["role"]["max_posted_age_days"] = 7
+    recent_date = (date.today() - timedelta(days=3)).isoformat()
+    j = _job("Hardware Engineer Intern", ["New York, NY"], posted_date=recent_date)
+    assert passes(j, cfg)

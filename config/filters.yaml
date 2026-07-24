@@ -97,6 +97,10 @@ role:
     - 2026
     - 2027
 
+  # Optional freshness filter. Set to 7 to keep only postings from the last week.
+  # Leave unset or null to disable this restriction.
+  max_posted_age_days: 7
+
 # ---------------------------------------------------------------------------
 # 2) CATEGORY KEYWORDS
 #

@@ -1,4 +1,4 @@
-# hw_intern_emailer
+# swe_intern_emailer
 
 A bot that **runs daily on GitHub Actions** and **emails you** **new US hardware engineering internship openings** (Summer & Spring / off-cycle).
 It pulls from community internship aggregators and directly from company career
