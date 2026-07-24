@@ -128,6 +128,65 @@ companies need a manual careers-page check, not a bug.
 - **`config/filters.yaml`** — keywords, allowed seasons/years, and US location terms.
 - **`config/settings.yaml`** — digest format, state pruning, suppression.
 
+## Adding a company
+
+Companies live in **`config/companies.yaml`**, grouped by ATS. Adding one is a
+config-only change — no code edits and no restart; the next scheduled run picks it
+up automatically. The trick is knowing which ATS a company uses: open its careers
+page and check the URL.
+
+| ATS | Careers URL looks like | Fields to add |
+| --- | --- | --- |
+| **Greenhouse** | `boards.greenhouse.io/COMPANY` or `job-boards.greenhouse.io/COMPANY` | `company` + `token` (the `COMPANY` slug) |
+| **Lever** | `jobs.lever.co/COMPANY` | `company` + `token` |
+| **Ashby** | `jobs.ashbyhq.com/COMPANY` | `company` + `token` |
+| **Workday** | `TENANT.wdN.myworkdayjobs.com/SITE` | `company` + `tenant` + `wd_num` (the `N`) + `site` |
+| **iCIMS** | `careers-COMPANY.icims.com/jobs` | `company` + `url` (the full jobs URL) |
+
+Add an entry under the matching section (2-space indentation; each entry starts
+with `- company:`):
+
+```yaml
+greenhouse:
+- company: Stripe
+  token: stripe                       # from boards.greenhouse.io/stripe
+
+lever:
+- company: Palantir
+  token: palantir                     # from jobs.lever.co/palantir
+
+ashby:
+- company: Notion
+  token: notion                       # from jobs.ashbyhq.com/notion
+
+workday:
+- company: NVIDIA                      # https://nvidia.wd5.myworkdayjobs.com/en-US/NVIDIAExternalCareerSite
+  tenant: nvidia
+  wd_num: 5
+  site: NVIDIAExternalCareerSite
+
+icims:
+- company: Shure
+  url: https://careersus-shure.icims.com/jobs
+```
+
+Then verify and roll it out:
+
+```bash
+python3 -m src.main --dry-run          # confirm the new company's jobs appear
+python3 -m tools/qc_sources.py         # optional: check every configured source is live
+```
+
+If a source 404s or returns nothing, fix the identifier or disable the entry with
+`enabled: false`. Commit and push `config/companies.yaml` — the next hourly run
+uses it. (That company's current open roles count as "new" on the first run, so
+expect one email with its existing matches, then only new ones after.)
+
+> **Bulk-adding (Greenhouse / Lever / Ashby only):** `python3 -m src.discover
+> --write-config` probes likely tokens from `data/companies_master.csv` and merges
+> confirmed live boards. Workday can't be auto-guessed (tenant/site aren't
+> derivable), so add those by hand.
+
 ## Optional: SMS
 This is an email-only setup, but an SMS-nudge channel (`src/notify/sms.py`, via
 Twilio) ships dormant. To enable it later:
