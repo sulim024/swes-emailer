@@ -2,8 +2,8 @@ name: Daily internship digest
 
 on:
   schedule:
-    # 13:00 UTC ~= 9:00 AM US Eastern (8:00 AM during standard time).
-    # GitHub cron can be delayed under load; that's fine for a daily digest.
+    # Runs at the top of every hour (minute 0). GitHub cron can be delayed
+    # under load; that's fine for a recurring digest.
     - cron: "0 * * * *"
   workflow_dispatch:
     # Manual trigger from the Actions tab — use it to test or to keep the
