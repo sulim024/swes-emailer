@@ -13,6 +13,10 @@ on:
         description: "Run without sending or saving state"
         type: boolean
         default: false
+      seed:
+        description: "Seed mode: mark all current postings as seen and send nothing (run once)"
+        type: boolean
+        default: false
 
 permissions:
   contents: write   # needed to commit the updated data/seen_jobs.json
@@ -49,7 +53,9 @@ jobs:
           # TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
           # SMS_TO: ${{ secrets.SMS_TO }}
         run: |
-          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+          if [ "${{ github.event.inputs.seed }}" = "true" ]; then
+            python -m src.main --seed
+          elif [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
             python -m src.main --dry-run
           else
             python -m src.main
