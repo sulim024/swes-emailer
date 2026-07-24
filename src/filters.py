@@ -27,10 +27,10 @@ _YEAR_RE = re.compile(r"\b(20\d{2})\b")
 # Engineer II, Engineer III, or Engineer IV.
 #
 # Accepted examples:
-#   Electrical Engineer I
-#   Hardware Engineer 1
-#   Firmware Engineer Level I
-#   Controls Engineer Level 1
+#   Software Engineer I
+#   Software Engineer 1
+#   Software Engineer Level I
+#   Backend Engineer Level 1
 _ENGINEER_I_RE = re.compile(
     r"\bengineer\s+(?:level\s+)?(?:1|i)\b(?!\s*i)",
     re.IGNORECASE,

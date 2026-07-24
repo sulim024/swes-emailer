@@ -4,7 +4,7 @@
     python -m src.apply --prepare-only  # fill forms, NEVER submit (safe to try)
     python -m src.apply --limit 3       # cap how many this run
     python -m src.apply --headless      # no visible browser (testing only)
-    python -m src.apply --company SpaceX --category hardware
+    python -m src.apply --company Stripe --category software
 
 Runs locally with a visible browser so you can watch, solve CAPTCHAs, and review
 before submit. The daily email job is separate and unaffected.
@@ -100,7 +100,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--prepare-only", action="store_true", help="fill forms but never submit")
     parser.add_argument("--headless", action="store_true", help="no visible browser (testing)")
     parser.add_argument("--no-cover-letter", action="store_true", help="don't generate cover letters")
-    parser.add_argument("--category", choices=["silicon", "hardware", "firmware"], help="only this category")
+    parser.add_argument("--category", choices=["software", "data_ml", "firmware"], help="only this category")
     parser.add_argument("--company", help="only companies whose name contains this")
     parser.add_argument("--mode", choices=["auto_simple_review_hard", "review_all", "auto_all"])
     parser.add_argument("--retry-failed", action="store_true", help="re-attempt jobs previously marked failed")

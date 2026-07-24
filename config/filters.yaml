@@ -48,6 +48,7 @@ role:
     - "campus graduate"
     - "university hire"
     - "associate engineer"
+    - "associate software engineer"
     - "associate electrical engineer"
     - "associate hardware engineer"
     - "associate firmware engineer"
@@ -105,77 +106,54 @@ role:
 # 2) CATEGORY KEYWORDS
 #
 # The title is checked against each category in order. The first match wins.
-# Silicon appears before hardware so a title such as "ASIC Design Intern"
-# is classified as silicon rather than generic hardware.
+# Software is checked first, followed by data/ML, then firmware.
 # ---------------------------------------------------------------------------
 categories:
-  silicon:
-    - asic
-    - vlsi
-    - rtl
-    - "digital design"
-    - "digital ic"
-    - "analog design"
-    - "analog ic"
-    - "mixed-signal"
-    - "mixed signal"
-    - "design verification"
-    - "verification engineer"
-    - "verification intern"
-    - "physical design"
-    - dft
-    - silicon
-    - "soc "
-    - "soc,"
-    - "soc design"
-    - "system-on-chip"
-    - rfic
-    - "rf ic"
-    - "cpu design"
-    - "gpu design"
-    - "chip design"
-    - "memory design"
-    - tapeout
-    - "cad engineer"
-    - "emulation engineer"
-    - "circuit design"
-    - fpga
+  software:
+    - "software engineer"
+    - "software engineering"
+    - "software developer"
+    - "software development"
+    - "software intern"
+    - swe
+    - "full stack"
+    - "full-stack"
+    - fullstack
+    - backend
+    - "back end"
+    - "back-end"
+    - frontend
+    - "front end"
+    - "front-end"
+    - "web developer"
+    - "web engineer"
+    - "application developer"
+    - "applications developer"
+    - "platform engineer"
+    - "systems software"
+    - "distributed systems"
+    - "cloud engineer"
+    - devops
+    - "site reliability"
+    - sre
+    - "mobile developer"
+    - "ios developer"
+    - "android developer"
+    - "developer intern"
+    - programmer
 
-  hardware:
-    - "hardware engineer"
-    - "hardware engineering"
-    - "hardware design"
-    - "hardware development"
-    - "hardware test"
-    - "hardware intern"
-    - "hardware co-op"
-    - "electrical engineer"
-    - "electrical engineering"
-    - "electrical intern"
-    - "electrical design"
-    - "electronics engineer"
-    - "electronics engineering"
-    - "electronics intern"
-    - pcb
-    - "power electronics"
-    - "power engineer"
-    - "controls engineer"
-    - "control systems"
-    - "automation engineer"
-    - "systems engineer"
-    - "rf engineer"
-    - "rf intern"
-    - "rf design"
-    - antenna
-    - "signal integrity"
-    - "power integrity"
-    - "board design"
-    - avionics
-    - "test engineer"
-    - mechatronics
-    - robotics
-    - "electromechanical"
-    - "instrumentation engineer"
+  data_ml:
+    - "machine learning"
+    - "ml engineer"
+    - "ai engineer"
+    - "data engineer"
+    - "data scientist"
+    - "data science"
+    - "deep learning"
+    - "computer vision"
+    - nlp
+    - "artificial intelligence"
+    - "applied scientist"
 
   firmware:
     - firmware
@@ -183,11 +161,8 @@ categories:
     - "embedded systems"
     - "embedded engineer"
     - "embedded intern"
-    - "bare metal"
-    - "bare-metal"
     - rtos
     - "device driver"
-    - "bsp "
     - microcontroller
 
 # If true, a job must match at least one category group.

@@ -17,8 +17,8 @@ SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 
 _CATEGORY_LABELS = {
-    "silicon": "🔬 Silicon / Chip Design",
-    "hardware": "⚡ Hardware / Electrical",
+    "software": "💻 Software Engineering",
+    "data_ml": "🤖 Data / ML / AI",
     "firmware": "💾 Firmware / Embedded",
     "other": "🧩 Other",
 }
@@ -160,7 +160,7 @@ def send_email(
         log.warning("email skipped: GMAIL_USER / GMAIL_APP_PASSWORD / EMAIL_TO not all set")
         return False
 
-    order = email_cfg.get("category_order", ["silicon", "hardware", "firmware", "other"])
+    order = email_cfg.get("category_order", ["software", "data_ml", "firmware", "other"])
     grouped = group_by_category(jobs, order)
     faang = faang_jobs(jobs, email_cfg.get("faang_companies", []))
     subject = subject_override or build_subject(

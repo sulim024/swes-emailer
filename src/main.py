@@ -49,7 +49,7 @@ def collect_jobs(limit: int | None = None) -> list[Job]:
 
 def _print_digest(jobs: list[Job]) -> None:
     order = config.settings().get("email", {}).get(
-        "category_order", ["silicon", "hardware", "firmware", "other"]
+        "category_order", ["software", "data_ml", "firmware", "other"]
     )
     grouped = email_notify.group_by_category(jobs, order)
     print("\n" + "=" * 70)
@@ -70,10 +70,10 @@ def run_test_notify() -> int:
     settings = config.settings()
     sample = Job(
         company="Example Corp",
-        title="Hardware Engineer Intern (Summer 2027)",
-        url="https://example.com/jobs/hw-intern",
+        title="Software Engineer Intern (Summer 2027)",
+        url="https://example.com/jobs/swe-intern",
         locations=["New York, NY"],
-        category="hardware",
+        category="software",
         season="summer",
         year=2027,
     )

@@ -1,6 +1,6 @@
 # swe_intern_emailer
 
-A bot that **runs daily on GitHub Actions** and **emails you** **new US hardware engineering internship openings** (Summer & Spring / off-cycle).
+A bot that **runs daily on GitHub Actions** and **emails you** **new US software engineering internship openings** (Summer & Spring / off-cycle).
 It pulls from community internship aggregators and directly from company career
 sites (via their ATS APIs), filters to what you care about, remembers what it has
 already shown you, and only alerts on **new** postings.

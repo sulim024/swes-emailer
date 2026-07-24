@@ -6,6 +6,7 @@ from src.apply.ashby import AshbyApplicator
 from src.apply.greenhouse import GreenhouseApplicator
 from src.apply.lever import LeverApplicator
 from src.apply.registry import get_applicator
+from src.apply.workday import WorkdayApplicator
 from src.models import Job
 
 
@@ -42,6 +43,11 @@ def test_lever_apply_url():
     assert LeverApplicator().application_url(j).endswith("/abc/apply")
 
 
+def test_workday_apply_url():
+    j = Job(company="Acme", title="SWE Intern", url="https://acme.wd1.myworkdayjobs.com/en-US/careers/job/Loc/Title_JR1", ats="workday")
+    assert WorkdayApplicator().application_url(j).endswith("/apply")
+
+
 def test_ashby_apply_url():
     j = Job(company="Notion", title="SWE Intern", url="https://jobs.ashbyhq.com/notion/abc", ats="ashby")
     assert AshbyApplicator().application_url(j).endswith("/abc/application")
@@ -54,7 +60,7 @@ def test_greenhouse_apply_url_is_job_url():
 
 def test_registry_picks_by_ats():
     assert get_applicator(Job(company="X", title="t", url="u", ats="ashby")).ats == "ashby"
-    assert get_applicator(Job(company="X", title="t", url="u", ats="workday")) is None
+    assert get_applicator(Job(company="X", title="t", url="u", ats="workday")).ats == "workday"
 
 
 # --- is_done: never re-apply to handled jobs ---------------------------------

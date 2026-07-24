@@ -22,9 +22,9 @@ max_jobs_per_source: 0
 # Email digest.
 email:
   enabled: true
-  subject_prefix: "[HW Intern Alert]"
+  subject_prefix: "[SWE Intern Alert]"
   # group order in the digest
-  category_order: [silicon, hardware, firmware, other]
+  category_order: [software, data_ml, firmware, other]
   # When a NEW posting is from one of these companies, the digest goes URGENT:
   # subject + headline get a "top company job out now" banner. Edit freely.
   faang_companies: [medtronic, starkey, tactile, graco, donaldson, polaris, toro,
@@ -38,7 +38,7 @@ email:
 sms:
   enabled: false
   # template; {n} is replaced with the new-job count
-  template: "{n} new hardware internships today. Check your email for the digest."
+  template: "{n} new software internships today. Check your email for the digest."
   # don't send an SMS unless at least this many new jobs (avoids paying for tiny alerts)
   min_jobs: 1
 
@@ -56,4 +56,4 @@ apply:
   daily_limit: 10               # max applications per run
   # ATSes the apply tool knows how to fill. Jobs from other sources are skipped
   # (you still get them in the email digest).
-  supported_ats: [greenhouse, lever, ashby]
+  supported_ats: [greenhouse, lever, ashby, workday]

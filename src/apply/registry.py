@@ -7,11 +7,13 @@ from .ashby import AshbyApplicator
 from .base import Applicator
 from .greenhouse import GreenhouseApplicator
 from .lever import LeverApplicator
+from .workday import WorkdayApplicator
 
 _APPLICATORS: list[Applicator] = [
     GreenhouseApplicator(),
     LeverApplicator(),
     AshbyApplicator(),
+    WorkdayApplicator(),
 ]
 
 

@@ -52,14 +52,14 @@ python -m src.apply --mode review_all        # pause on every form
 python -m src.apply --no-cover-letter        # skip cover-letter generation
 ```
 
-It only considers jobs whose ATS it can fill (**Greenhouse, Lever, Ashby**) and
+It only considers jobs whose ATS it can fill (**Greenhouse, Lever, Ashby, Workday**) and
 that you haven't already applied to. Every attempt is logged to
 `data/applications.json` (status: submitted / reviewed / skipped / failed /
 prepared), so re-runs never double-apply.
 
 ## Scope & honest expectations
-- **Coverage:** Greenhouse / Lever / Ashby today. Workday and custom career sites
-  aren't auto-fillable yet — you'll still get those in the email digest to apply by hand.
+- **Coverage:** Greenhouse / Lever / Ashby / Workday today; each is recognized and
+  its application form URL is derived. Custom career sites still require applying by hand.
 - **Field filling is best-effort.** Forms vary; the tool fills what it confidently
   recognizes and flags the rest for your review. Verified working on live Greenhouse
   forms (fills name/email/phone/links/school + resume, detects custom questions).

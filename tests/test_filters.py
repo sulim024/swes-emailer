@@ -20,17 +20,17 @@ def _job(title, locations=None, **kw):
 F = config.filters()
 
 
-def test_hardware_intern_us_kept():
-    j = _job("Hardware Engineer Intern", ["New York, NY"])
+def test_software_intern_us_kept():
+    j = _job("Software Engineer Intern", ["New York, NY"])
     assert passes(j, F)
-    assert j.category == "hardware"
+    assert j.category == "software"
     assert j.season == "summer" or j.season is None  # season may be undetected from title
 
 
-def test_asic_intern_classified_as_silicon():
-    j = _job("ASIC Design Verification Intern", ["Santa Clara, CA"])
+def test_ml_intern_classified_as_data_ml():
+    j = _job("Machine Learning Intern", ["Santa Clara, CA"])
     assert passes(j, F)
-    assert j.category == "silicon"
+    assert j.category == "data_ml"
 
 
 def test_firmware_intern_kept():
@@ -40,18 +40,19 @@ def test_firmware_intern_kept():
 
 
 def test_fulltime_senior_role_rejected():
-    j = _job("Senior Hardware Engineer", ["San Francisco, CA"])
+    j = _job("Senior Software Engineer", ["San Francisco, CA"])
     assert not passes(j, F)
 
 
-def test_new_grad_fulltime_rejected():
-    j = _job("Hardware Engineer, New Grad", ["Seattle, WA"])
-    # no internship term -> rejected
-    assert not passes(j, F)
+def test_new_grad_role_kept():
+    j = _job("Software Engineer, New Grad", ["Seattle, WA"])
+    # config sets allow_new_grad: true, so new-grad roles are kept
+    assert passes(j, F)
+    assert j.category == "software"
 
 
 def test_non_us_location_rejected():
-    j = _job("Hardware Engineer Intern", ["London, UK"])
+    j = _job("Software Engineer Intern", ["London, UK"])
     assert not passes(j, F)
 
 
@@ -61,12 +62,12 @@ def test_canada_rejected():
 
 
 def test_unknown_location_kept():
-    j = _job("Electrical Engineering Intern")
+    j = _job("Software Engineer Intern")
     assert passes(j, F)  # keep_when_location_unknown: true
 
 
 def test_multi_location_with_us_option_kept():
-    j = _job("PCB Design Intern", ["London, UK", "New York, NY"])
+    j = _job("Software Engineer Intern", ["London, UK", "New York, NY"])
     assert passes(j, F)
 
 
@@ -76,25 +77,28 @@ def test_non_category_intern_rejected():
 
 
 def test_out_of_window_year_rejected():
-    j = _job("Hardware Engineer Intern, Summer 2025", ["Austin, TX"])
+    j = _job("Software Engineer Intern, Summer 2025", ["Austin, TX"])
     assert not passes(j, F)
 
 
 def test_coop_kept():
-    j = _job("Electrical Engineering Co-op", ["Boston, MA"])
+    j = _job("Software Engineer Co-op", ["Boston, MA"])
     assert passes(j, F)
 
 
 def test_remote_kept():
     j = _job("Firmware Engineer Intern", ["Remote"])
+    assert passes(j, F)
 
-def test_pure_swe_intern_rejected():
-    # software-only titles should no longer match any hardware category
-    j = _job("Software Engineer Intern", ["New York, NY"])
+
+def test_non_software_intern_rejected():
+    # non-software titles should no longer match any category
+    j = _job("Mechanical Engineer Intern", ["New York, NY"])
     assert not passes(j, F)
 
+
 def test_remote_kept_2():
-    j = _job("RF Engineer Intern", ["Remote"])
+    j = _job("Backend Engineer Intern", ["Remote"])
     assert passes(j, F)
 
 
@@ -103,7 +107,7 @@ def test_old_posting_rejected_when_freshness_limit_set():
     cfg["role"] = dict(F["role"])
     cfg["role"]["max_posted_age_days"] = 7
     old_date = (date.today() - timedelta(days=8)).isoformat()
-    j = _job("Hardware Engineer Intern", ["New York, NY"], posted_date=old_date)
+    j = _job("Software Engineer Intern", ["New York, NY"], posted_date=old_date)
     assert not passes(j, cfg)
 
 
@@ -112,5 +116,5 @@ def test_recent_posting_kept_when_freshness_limit_set():
     cfg["role"] = dict(F["role"])
     cfg["role"]["max_posted_age_days"] = 7
     recent_date = (date.today() - timedelta(days=3)).isoformat()
-    j = _job("Hardware Engineer Intern", ["New York, NY"], posted_date=recent_date)
+    j = _job("Software Engineer Intern", ["New York, NY"], posted_date=recent_date)
     assert passes(j, cfg)
