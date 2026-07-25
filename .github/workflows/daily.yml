@@ -2,9 +2,9 @@ name: Daily internship digest
 
 on:
   schedule:
-    # Runs at the top of every hour (minute 0). GitHub cron can be delayed
+    # Runs at the 45th min of every hour (minute 0). GitHub cron can be delayed
     # under load; that's fine for a recurring digest.
-    - cron: "0 * * * *"
+    - cron: "45 * * * *"
   workflow_dispatch:
     # Manual trigger from the Actions tab — use it to test or to keep the
     # schedule alive (GitHub disables crons after 60 days of repo inactivity).
