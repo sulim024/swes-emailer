@@ -97,6 +97,7 @@ role:
   years:
     - 2026
     - 2027
+    - 2028
 
   # Optional freshness filter. Set to 7 to keep only postings from the last week.
   # Leave unset or null to disable this restriction.
